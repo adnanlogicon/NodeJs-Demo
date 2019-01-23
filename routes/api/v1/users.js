@@ -1,14 +1,27 @@
+const express = require('express');
+const router = express.Router();
 
-var express = require('express');
-var router = express.Router();
+const mysql = require('mysql');
 
-var mongoose = require("mongoose");
-mongoose.connect('mongodb://localhost/jetbrains').then(() => {
-    console.log("Connected to Database")
-}).catch((error) => {
-    console.log("Not Connected to Database ERROR!", error);
+const con = mysql.createConnection({
+    host: "localhost",
+    user: "adnan",
+    password: "12345",
+    database: "jetbrains"
 
 });
+
+con.connect(function (err) {
+    if (err) throw err;
+    console.log("Connected!");
+    con.query("CREATE DATABASE jetbrains", function (err, result) {
+        if (err) throw err;
+        console.log("Database created");
+    });
+});
+
+
+
 
 var productSchema = mongoose.Schema({
     name: String,
@@ -29,16 +42,24 @@ product.save(function (err) {
 /* GET product listing. */
 router.get('/', function (req, res) {
     Product.find(function (err, products) {
-        res.json(products);
+        res.json({
+            error: false,
+            message: "Data fetched succesfully",
+            data: products
+        });
 
     })
 });
 
 /* GET product by id */
-var mysort = { age: -1 };
+var mysort = {age: -1};
 router.get('/:age', function (req, res) {
     Product.findOne(function (err, products) {
-        res.json(products);
+        res.json({
+            error: false,
+            message: "Data fetched succesfully",
+            data: products
+        });
     }).reverse()
 });
 
