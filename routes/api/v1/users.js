@@ -1,35 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-const mysql = require('mysql');
-
-const con = mysql.createConnection({
-    host: "localhost",
-    user: "adnan",
-    password: "12345",
-    database: "jetbrains"
-
-});
-
-con.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
-    con.query("CREATE DATABASE jetbrains", function (err, result) {
-        if (err) throw err;
-        console.log("Database created");
-    });
-});
 
 
-
-
-var productSchema = mongoose.Schema({
+/*var productSchema = mongoose.Schema({
     name: String,
     age: Number,
     nationality: String
 });
 var Product = mongoose.model('Product', productSchema);
-/*
+
 var product = new Product({name: "Webstorm", age: 1, nationality: "Pakistani"});
 product.save(function (err) {
     if (err) {
